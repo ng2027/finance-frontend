@@ -1,4 +1,4 @@
-import { Layout } from "@/lib/layout";
+import { Layout } from "@/lib/(not-auth)/layout";
 import { ReactElement } from "react";
 
 export default function Contact() {

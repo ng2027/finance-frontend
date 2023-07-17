@@ -1,10 +1,10 @@
-import { useAuthContext } from "@/hooks/useAuthContext";
-import { SignUp } from "@/lib/account";
-import LoadingSpinner from "@/lib/loading";
-import { HomeOutlined } from "@ant-design/icons";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-export default function FAQ() {
+import { NavBar } from "./navbar";
+import LoadingSpinner from "../loading";
+import { useRouter } from "next/router";
+import { useAuthContext } from "@/hooks/useAuthContext";
+
+function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { user } = useAuthContext();
   const [initialLoad, setInitialLoad] = useState(true);
@@ -42,24 +42,12 @@ export default function FAQ() {
   if (!enterEffect || isLoading) {
     return <LoadingSpinner />;
   }
-  function changeType() {
-    router.push("/login");
-  }
-
-  function goHome() {
-    router.push("/");
-  }
-  // grid place-items-center h-screen sm:pb-6 bg-gradient-to-t from-gray-100 to-gray-300
   return (
-    <div className="grid place-items-center h-screen sm:pb-6 bg-gradient-to-t from-gray-100 to-gray-300">
-      <HomeOutlined
-        className="absolute right-10 top-10"
-        style={{ fontSize: "130%" }}
-        onClick={goHome}
-      />
-      <div className="p-10 py-[50px] bg-white">
-        <SignUp change={changeType} />
-      </div>
-    </div>
+    <>
+      <NavBar />
+      {children}
+    </>
   );
 }
+
+export { Layout };

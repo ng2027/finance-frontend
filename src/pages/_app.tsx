@@ -4,6 +4,9 @@ import type { NextPage } from "next";
 import "@/styles/globals.css";
 import "tailwindcss/tailwind.css";
 import "../styles/antd-ng.css";
+import "react-toastify/dist/ReactToastify.css";
+import { AuthContextProvider } from "@/context/AuthContext";
+import { ToastContainer } from "react-toastify";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -15,7 +18,12 @@ type AppPropsWithLayout = AppProps & {
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout ?? ((page) => page);
+  const getLayout = Component.getLayout ?? ((page: any) => page);
 
-  return getLayout(<Component {...pageProps} />);
+  return (
+    <AuthContextProvider>
+      <ToastContainer />
+      {getLayout(<Component {...pageProps} />)}
+    </AuthContextProvider>
+  );
 }

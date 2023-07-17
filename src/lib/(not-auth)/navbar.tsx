@@ -38,6 +38,9 @@ function NavBar() {
       });
     });
   }, []);
+  React.useEffect(() => {
+    document.getElementById(router.pathname)?.click();
+  }, [router.pathname]);
   return (
     <div className="shadow-lg p-5 pt-2 sm:pt-5 w-full sm:pb-6 bg-gradient-to-t from-gray-100 to-gray-300">
       <div className="flex flex-col sm:grid sm:grid-cols-5 items-center  gap-y-3">
@@ -46,13 +49,13 @@ function NavBar() {
           <div className="flex flex-row gap-x-10 relative">
             <div className="marker"></div>
             <Link href={"/"} className="link-navbar" id="home-nav">
-              Home
+              <span id="/">Home</span>
             </Link>
             <Link href={"/faq"} className="link-navbar">
-              FAQ
+              <span id="/faq">FAQ</span>
             </Link>
             <Link href={"/contact"} className="link-navbar">
-              Contact
+              <span id="/contact">Contact</span>
             </Link>
           </div>
         </div>

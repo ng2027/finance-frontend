@@ -8,18 +8,6 @@ import { Layout } from "@/lib/(auth)/layout";
 
 export default function DashBoard() {
   const router = useRouter();
-  // const { user } = useAuthContext();
-  // const [initialLoad, setInitialLoad] = useState(true);
-  // const [isLoading, setIsLoading] = useState(false);
-  // if (initialLoad) {
-  //   setInitialLoad(false);
-  //   if (user == null) {
-  //     setIsLoading(true);
-  //     setTimeout(() => {
-  //       setIsLoading(false);
-  //     }, 2500);
-  //   }
-  // }
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -36,21 +24,6 @@ export default function DashBoard() {
       router.push("/");
     }, 2000);
   }
-  // useEffect(() => {
-  //   const timeoutId = setTimeout(() => {
-  //     if (isLoading && !user) {
-  //       router.push("/");
-  //     }
-  //   }, 1200);
-
-  //   return () => {
-  //     clearTimeout(timeoutId);
-  //   };
-  // }, [user, isLoading]);
-
-  // if (isLoading) {
-  //   return <LoadingSpinner />;
-  // }
 
   return (
     <div className="h-screen" style={{ backgroundColor: "cyan" }}>

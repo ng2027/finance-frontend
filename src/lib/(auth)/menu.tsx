@@ -21,9 +21,17 @@ function MenuItem({ name, link, icon }: any) {
       <Avatar
         shape="circle"
         icon={icon}
-        className={`cursor-pointer ${linkInName ? "bg-orange-300" : ""} `}
+        className={`cursor-pointer ${
+          linkInName
+            ? "bg-orange-300 transition ease-in duration-500"
+            : "bg-transparent transition ease-out duration-500"
+        } `}
       ></Avatar>
-      <div className={`hidden sm:block ${linkInName ? "text-white" : ""}`}>
+      <div
+        className={`hidden sm:block ${
+          linkInName ? "text-white transition ease-in duration-500" : ""
+        }`}
+      >
         {name}
       </div>
     </div>

@@ -29,7 +29,9 @@ function MenuItem({ name, link, icon }: any) {
       ></Avatar>
       <div
         className={`hidden sm:block ${
-          linkInName ? "text-white transition ease-in duration-500" : ""
+          linkInName
+            ? "text-white transition ease-in duration-500"
+            : "text-inherit transition ease-out duration-500"
         }`}
       >
         {name}

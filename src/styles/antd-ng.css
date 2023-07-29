@@ -16,3 +16,12 @@
   border-radius: 10px;
   transition: 0.3s;
 }
+
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 400;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
+.apple-font {
+  font-family: San Francisco;
+}

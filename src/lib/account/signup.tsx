@@ -171,7 +171,7 @@ function SignUp({ change }: { change: Function }) {
               <div className="flex flex-row gap-x-2">
                 <Input
                   placeholder="First Name"
-                  name="firstname"
+                  name=""
                   value={signUpData.firstname}
                   onChange={(e) => handleChange(e)}
                   status={missingField.firstname ? "error" : ""}

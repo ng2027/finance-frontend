@@ -61,7 +61,7 @@ function MenuBar({ user }: any) {
         className="flex flex-row flex-wrap sm:flex-nowrap sm:flex-col h-full rounded-[25px] overflow-hidden p-5 text-white sm:min-h-[650px] justify-between items-center"
         style={{ backgroundColor: "#161416" }}
       >
-        <div className="flex flex-row sm:flex-col gap-y-16">
+        <div className="flex flex-row sm:flex-col gap-y-[55px]">
           <div
             id="userText"
             className="flex flex-col gap-y-1 sm:gap-y-4 items-center sm:pt-5"
@@ -115,7 +115,7 @@ function MenuBar({ user }: any) {
         </div>
         <div
           id="logout-settings"
-          className="flex  flex-col sm:pb-3 sm:gap-y-4 gap-y-2 sm:w-full"
+          className="flex flex-row sm:flex-col sm:pb-3 sm:gap-y-4 gap-y-2 sm:w-full mt-2 sm:mt-0"
         >
           <ConfigProvider theme={{ token: { colorPrimary: "#000000" } }}>
             <div className="flex flex-row gap-x-3">

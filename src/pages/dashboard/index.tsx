@@ -4,7 +4,7 @@ import { Layout } from "@/lib/(auth)/layout";
 
 export default function DashBoard() {
   return (
-    <div className=" bg-slate-200">
+    <div className=" bg-slate-200 h-screen">
       <div>Dashboard</div>
     </div>
   );

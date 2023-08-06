@@ -23,7 +23,8 @@
     "**/*.ts",
     "**/*.tsx",
     "src/context/AuthContext.ts",
-    "src/hooks/useUserApi.tsx"
+    "src/hooks/useUserApi.tsx",
+    "src/lib/icon/ChevronDownIcon.jsx"
   ],
   "exclude": ["node_modules"]
 }

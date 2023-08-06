@@ -40,15 +40,13 @@ function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="flex flex-col sm:flex-row w-full h-screen"
-      style={{ backgroundColor: "cyan" }}
+      className="flex flex-col sm:flex-row w-full"
+      style={{ backgroundColor: "#333333" }}
     >
-      <div className="sm:w-1/4 sm:max-w-[280px] sm:min-w-[220px]">
+      <div className="sm:w-1/4 sm:max-w-[280px] sm:min-w-[220px] ">
         <MenuBar user={user} />
       </div>
-      <div className="p-0 m-0 grow " style={{ backgroundColor: "red" }}>
-        {children}
-      </div>
+      <div className="p-0 m-0 grow ">{children}</div>
     </div>
   );
 }

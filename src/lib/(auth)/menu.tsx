@@ -115,7 +115,7 @@ function MenuBar({ user }: any) {
         </div>
         <div
           id="logout-settings"
-          className="flex flex-row sm:flex-col sm:pb-3 sm:gap-y-4 gap-y-2 sm:w-full mt-2 sm:mt-0"
+          className="flex flex-row sm:flex-col sm:pb-3 sm:gap-y-4 gap-y-2 sm:w-full mt-2 sm:mt-0 gap-x-3"
         >
           <ConfigProvider theme={{ token: { colorPrimary: "#000000" } }}>
             <div className="flex flex-row gap-x-3">

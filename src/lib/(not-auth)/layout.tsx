@@ -25,18 +25,12 @@ function Layout({ children }: { children: React.ReactNode }) {
     setTimeout(() => {
       setEnterEffect(true);
     }, 300);
-  }, []);
+  }, [initialLoad]);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (isLoading && user !== null) {
-        router.push("/dashboard");
-      }
-    }, 1500);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
+    if (isLoading && user !== null) {
+      router.push("/dashboard");
+    }
   }, [user, isLoading]);
 
   if (!enterEffect || isLoading) {

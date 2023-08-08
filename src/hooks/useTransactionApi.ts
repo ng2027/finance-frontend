@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { useAuthContext } from "./useAuthContext";
 
@@ -51,5 +51,55 @@ export function useTransactionsQuery({ filter, limit, offset }: any) {
     error,
     isLoading: isLoading,
     isError: isError,
+  };
+}
+
+export function useCreateTransactionMutation() {
+  const queryClient = useQueryClient();
+  const { user } = useAuthContext();
+  const token = user?.token;
+  const createTransaction = useMutation(
+    async (reqData: any) => {
+      try {
+        const { data, status } = await instance.post(
+          `/`,
+          {
+            ...reqData,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (status != 200) {
+          toast.error("Something went wrong. Please try again.");
+          throw new Error("Something went wrong. Please try again.");
+        }
+
+        if (data.error) {
+          toast.error(data.error);
+          throw new Error(data.error);
+        }
+        toast.success("Successfully created a new transaction");
+        return data;
+      } catch (error) {
+        toast.error("Something went wrong. Please try again.");
+        throw new Error((error as any)?.message);
+      }
+    },
+    {
+      onSuccess: (_, variables) => {
+        queryClient.invalidateQueries(["transaction"]);
+      },
+    }
+  );
+
+  const { data, mutate, isLoading, isError, error } = createTransaction;
+  return {
+    data,
+    createTransaction: mutate,
+    createTransactionisLoading: isLoading,
   };
 }

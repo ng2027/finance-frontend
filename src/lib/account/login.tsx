@@ -147,7 +147,7 @@ function Login({ change }: { change: Function }) {
         <hr className="mb-5" />
         <div>
           <div className="flex flex-row gap-x-2">
-            <Text type="secondary">Don't have an account?</Text>
+            <Text type="secondary">Don{"\u0027"}t have an account?</Text>
             <Text
               className="text-blue-400 cursor-pointer"
               onClick={() => change()}

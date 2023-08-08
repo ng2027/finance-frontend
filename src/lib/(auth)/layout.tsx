@@ -23,15 +23,9 @@ function Layout({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (isLoading && !user) {
-        router.push("/");
-      }
-    }, 1200);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
+    if (isLoading && !user) {
+      router.push("/");
+    }
   }, [user, isLoading]);
 
   if (isLoading) {

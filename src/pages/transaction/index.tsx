@@ -37,7 +37,12 @@ function TopTable({ filter, setFilter }: { filter: any; setFilter: any }) {
     <div className="flex justify-between">
       <Title level={3}>Transactions</Title>
       <div className="flex flex-row gap-x-3">
-        <DropDownCategory selectedKeys={filter} setSelectedKeys={setFilter} />
+        <DropDownCategory
+          selectedKeys={filter}
+          setSelectedKeys={setFilter}
+          filter={true}
+          selectMissing={false}
+        />
         <AddTransaction />
       </div>
     </div>
@@ -66,7 +71,7 @@ export default function Transaction() {
         ...prev,
         filter: Array.from(filter).join(", "),
       }));
-    }, 250);
+    }, 350);
   }, [filter]);
 
   const renderCell = useCallback((user: any, columnKey: any) => {
@@ -102,12 +107,12 @@ export default function Transaction() {
                 <EyeIcon />
               </span>
             </Tooltip>
-            <Tooltip content="Edit user">
+            <Tooltip content="Edit transaction">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                 <EditIcon />
               </span>
             </Tooltip>
-            <Tooltip color="danger" content="Delete user">
+            <Tooltip color="danger" content="Delete transaction">
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
                 <DeleteIcon />
               </span>
@@ -164,7 +169,7 @@ export default function Transaction() {
   ];
 
   const rows = transactionData.transactions;
-  console.log(rows);
+
   function handlePagination(page: any) {
     setQueryOption((prev) => ({
       ...prev,
@@ -189,7 +194,10 @@ export default function Transaction() {
                 isCompact
                 showControls
                 showShadow
-                color="secondary"
+                classNames={{
+                  cursor:
+                    " bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 to-gray-600 bg-gradient-to-r",
+                }}
                 page={page}
                 total={Math.ceil(
                   transactionData.countTotal / queryOption.limit

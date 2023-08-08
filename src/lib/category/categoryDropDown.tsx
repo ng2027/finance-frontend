@@ -13,24 +13,39 @@ import { ReturnIcon } from "@/utils/buildCategory";
 export default function DropDownCategory({
   selectedKeys,
   setSelectedKeys,
+  filter,
+  selectMissing,
 }: {
   selectedKeys: any;
   setSelectedKeys: Function | any;
+  filter: boolean;
+  selectMissing: boolean;
 }) {
   const { data, isLoading } = useCategoriesQuery();
   const [categories, setCategories] = useState<any>([]);
   const [name, setName] = useState("Category");
+
   useEffect(() => {
     var list: Array<any> | never = data?.category;
-    if (list) {
-      list.unshift({ _id: "all", name: "All" });
-    }
 
     setCategories(list || []);
   }, [data]);
+
   useEffect(() => {
-    if (data?.category) {
-      for (const obj of data.category) {
+    if (filter) {
+      if (categories && categories.length != 0) {
+        if (categories[0]._id != "all") {
+          setCategories((prev: any) => [
+            { _id: "all", name: "All" },
+            ...categories,
+          ]);
+        }
+      }
+    }
+  }, [filter, categories]);
+  useEffect(() => {
+    if (categories && categories.length != 0) {
+      for (const obj of categories) {
         if (obj._id == Array.from(selectedKeys).join(", ")) {
           setName(obj.name);
         }
@@ -38,43 +53,42 @@ export default function DropDownCategory({
     } else {
       setName("Category");
     }
-  }, [selectedKeys]);
+  }, [selectedKeys, categories]);
 
   return (
-    <Dropdown>
-      <DropdownTrigger className="hidden sm:flex">
-        <Button
-          endContent={<ChevronDownIcon className="text-small" />}
-          variant="flat"
-        >
-          {name}
-        </Button>
-      </DropdownTrigger>
-
-      <DropdownMenu
-        aria-label="Dynamic Actions"
-        items={categories}
-        disallowEmptySelection
-        selectionMode="single"
-        selectedKeys={selectedKeys}
-        onSelectionChange={setSelectedKeys}
-      >
-        {(category: any) => (
-          <DropdownItem
-            key={category._id}
-            // color={item.key === "delete" ? "danger" : "default"}
-            // className={item.key === "delete" ? "text-danger" : ""}
+    <div>
+      <Dropdown>
+        <DropdownTrigger className="hidden sm:flex">
+          <Button
+            endContent={<ChevronDownIcon className="text-small" />}
+            variant="flat"
+            className={selectMissing ? "border  border-red-500" : ""}
           >
-            <div className="flex flex-row gap-x-2">
-              <div className="relative top-[2px]">
-                <ReturnIcon categoryID={category._id} />{" "}
-              </div>{" "}
-              {category.name}
-            </div>
-          </DropdownItem>
-        )}
-      </DropdownMenu>
-    </Dropdown>
+            {name}
+          </Button>
+        </DropdownTrigger>
+
+        <DropdownMenu
+          aria-label="Dynamic Actions"
+          items={categories}
+          disallowEmptySelection
+          selectionMode="single"
+          selectedKeys={selectedKeys}
+          onSelectionChange={setSelectedKeys}
+        >
+          {(category: any) => (
+            <DropdownItem key={category._id}>
+              <div className="flex flex-row gap-x-2">
+                <div className="relative top-[2px]">
+                  <ReturnIcon categoryID={category._id} />{" "}
+                </div>{" "}
+                {category.name}
+              </div>
+            </DropdownItem>
+          )}
+        </DropdownMenu>
+      </Dropdown>
+    </div>
   );
 }
 

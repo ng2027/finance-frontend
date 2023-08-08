@@ -1,3 +1,3 @@
-import { AddTransaction } from "./AddTransactrion";
+import { AddTransaction } from "./AddTransaction";
 
 export { AddTransaction };

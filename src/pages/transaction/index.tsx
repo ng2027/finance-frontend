@@ -9,16 +9,22 @@ import {
   Tooltip,
   Pagination,
 } from "@nextui-org/react";
-import { EyeIcon, DeleteIcon, EditIcon } from "@/lib/icon";
+import { EyeIcon } from "@/lib/icon";
 import { Layout } from "@/lib/(auth)/layout";
-import { Button, Spin, Typography } from "antd";
+import { Spin, Typography } from "antd";
 import { BuildTime } from "@/utils/buildTime";
 import { BuildCategory } from "@/utils/buildCategory";
 import { useTransactionsQuery } from "@/hooks/useTransactionApi";
 import { LoadingOutlined } from "@ant-design/icons";
 
 import { DropDownCategory } from "@/lib/category/categoryDropDown";
-import { AddTransaction } from "@/lib/transaction";
+import {
+  AddTransaction,
+  ViewTransactionModal,
+  EditTransaction,
+  DeleteTransaction,
+} from "@/lib/transaction";
+import router from "next/router";
 const { Text, Title } = Typography;
 function desciptionSummary(description: string) {
   if (description.length < 60) {
@@ -64,6 +70,8 @@ export default function Transaction() {
     offset: queryOption.offset,
     filter: queryOption.filter,
   });
+  const [viewVisible, setViewVisble] = useState(false);
+  const [viewData, setViewData] = useState<any>(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -74,8 +82,23 @@ export default function Transaction() {
     }, 350);
   }, [filter]);
 
-  const renderCell = useCallback((user: any, columnKey: any) => {
-    const cellValue = user[columnKey];
+  function handleView(data: any) {
+    router.push(
+      `${router.pathname}?transaction=true`,
+      `/transaction/${data._id}`
+    );
+    setViewData(data);
+    setViewVisble(true);
+  }
+  const confirm = (e: React.MouseEvent<HTMLElement> | any) => {
+    console.log(e);
+  };
+
+  const cancel = (e: React.MouseEvent<HTMLElement> | any) => {
+    console.log(e);
+  };
+  const renderCell = useCallback((transaction: any, columnKey: any) => {
+    const cellValue = transaction[columnKey];
 
     switch (columnKey) {
       case "name":
@@ -89,7 +112,7 @@ export default function Transaction() {
           <div
             className="bg-slate-200 justify-center flex rounded-lg p-1"
             style={{
-              backgroundColor: user.transaction_is_spending
+              backgroundColor: transaction.transaction_is_spending
                 ? "#FFCCCC"
                 : "#CCFFCC",
             }}
@@ -104,19 +127,11 @@ export default function Transaction() {
           <div className="relative flex items-center gap-2 flex-row flex-auto">
             <Tooltip content="Details">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <EyeIcon />
+                <EyeIcon onClick={() => handleView(transaction)} />
               </span>
             </Tooltip>
-            <Tooltip content="Edit transaction">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <EditIcon />
-              </span>
-            </Tooltip>
-            <Tooltip color="danger" content="Delete transaction">
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                <DeleteIcon />
-              </span>
-            </Tooltip>
+            <EditTransaction data={transaction} />
+            <DeleteTransaction data={transaction} />
           </div>
         );
       default:
@@ -232,6 +247,11 @@ export default function Transaction() {
           </TableBody>
         </Table>
       </div>
+      <ViewTransactionModal
+        visible={viewVisible}
+        setVisible={setViewVisble}
+        data={viewData}
+      />
     </div>
   );
 }

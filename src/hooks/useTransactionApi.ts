@@ -103,3 +103,103 @@ export function useCreateTransactionMutation() {
     createTransactionisLoading: isLoading,
   };
 }
+
+export function useUpdateTransactionMutation() {
+  const queryClient = useQueryClient();
+  const { user } = useAuthContext();
+  const token = user?.token;
+  const updateTransaction = useMutation(
+    async ({
+      reqData,
+      transactionID,
+    }: {
+      reqData: any;
+      transactionID: string;
+    }) => {
+      try {
+        const { data, status } = await instance.patch(
+          `/${transactionID}`,
+          {
+            ...reqData,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (status != 200) {
+          toast.error("Something went wrong. Please try again.");
+          throw new Error("Something went wrong. Please try again.");
+        }
+
+        if (data.error) {
+          toast.error(data.error);
+          throw new Error(data.error);
+        }
+        toast.success("Successfully updated transaction!");
+        return data;
+      } catch (error) {
+        toast.error("Something went wrong. Please try again.");
+        throw new Error((error as any)?.message);
+      }
+    },
+    {
+      onSuccess: (_, variables) => {
+        queryClient.invalidateQueries(["transaction"]);
+      },
+    }
+  );
+
+  const { data, mutate, isLoading, isError, error } = updateTransaction;
+  return {
+    data,
+    updateTransaction: mutate,
+    updateTransactionisLoading: isLoading,
+  };
+}
+
+export function useDeleteTransactionMutation() {
+  const queryClient = useQueryClient();
+  const { user } = useAuthContext();
+  const token = user?.token;
+  const deleteTransaction = useMutation(
+    async ({ transactionID }: { transactionID: string }) => {
+      try {
+        const { data, status } = await instance.delete(`/${transactionID}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (status != 200) {
+          toast.error("Something went wrong. Please try again.");
+          throw new Error("Something went wrong. Please try again.");
+        }
+
+        if (data.error) {
+          toast.error(data.error);
+          throw new Error(data.error);
+        }
+        toast.success("Successfully deleted transaction!");
+        return data;
+      } catch (error) {
+        toast.error("Something went wrong. Please try again.");
+        throw new Error((error as any)?.message);
+      }
+    },
+    {
+      onSuccess: (_, variables) => {
+        queryClient.invalidateQueries(["transaction"]);
+      },
+    }
+  );
+
+  const { data, mutate, isLoading, isError, error } = deleteTransaction;
+  return {
+    data,
+    deleteTransaction: mutate,
+    deleteTransactionisLoading: isLoading,
+  };
+}

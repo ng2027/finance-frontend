@@ -24,8 +24,8 @@ export function BuildTime(utcTimestamp: string) {
   const parts = torontoFormattedDate.split("/");
   const month = parseInt(parts[0]);
   const day = parseInt(parts[1]);
-  const year = parseInt(parts[2].substring(2));
-
+  const year = parseInt(parts[2]);
+  const formattedDay = day < 10 ? `0${day}` : day.toString();
   const months = [
     "Jan",
     "Feb",
@@ -41,7 +41,7 @@ export function BuildTime(utcTimestamp: string) {
     "Dec",
   ];
 
-  const formattedDate = `${day} ${months[month - 1]} ${year}`;
+  const formattedDate = `${formattedDay} ${months[month - 1]} ${year}`;
 
   const formattedDateTime = `${torontoFormattedTime}, ${formattedDate}`;
 

@@ -15,7 +15,7 @@ function MenuItem({ name, link, icon }: any) {
 
   return (
     <div
-      className="flex flex-row gap-x-4 items-center  py-2 px-2 pr-3 rounded-xl text-slate-600 hover:text-white sm:bg-[#242124] duration-300 ease-in transition-all"
+      className="flex flex-row gap-x-4 items-center cursor-pointer py-2 px-2 pr-3 rounded-xl text-slate-600 hover:text-white sm:bg-[#242124] duration-300 ease-in transition-all"
       onClick={() => router.push(link)}
     >
       <Avatar

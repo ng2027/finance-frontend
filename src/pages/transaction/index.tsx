@@ -30,7 +30,7 @@ function desciptionSummary(description: string) {
   if (description.length < 60) {
     return description;
   } else {
-    return "first " + description.substring(0, 60) + "...";
+    return description.substring(0, 60) + "...";
   }
 }
 
@@ -40,7 +40,7 @@ const antIcon = (
 
 function TopTable({ filter, setFilter }: { filter: any; setFilter: any }) {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between ">
       <Title level={3}>Transactions</Title>
       <div className="flex flex-row gap-x-3">
         <DropDownCategory
@@ -72,14 +72,21 @@ export default function Transaction() {
   });
   const [viewVisible, setViewVisble] = useState(false);
   const [viewData, setViewData] = useState<any>(null);
-
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+  const updateScreenHeight = () => {
+    setScreenHeight(window.innerHeight);
+  };
   useEffect(() => {
-    setTimeout(() => {
-      setQueryOption((prev) => ({
-        ...prev,
-        filter: Array.from(filter).join(", "),
-      }));
-    }, 350);
+    window.addEventListener("resize", updateScreenHeight);
+    return () => {
+      window.removeEventListener("resize", updateScreenHeight);
+    };
+  }, []);
+  useEffect(() => {
+    setQueryOption((prev) => ({
+      ...prev,
+      filter: Array.from(filter).join(", "),
+    }));
   }, [filter]);
 
   function handleView(data: any) {
@@ -90,13 +97,6 @@ export default function Transaction() {
     setViewData(data);
     setViewVisble(true);
   }
-  const confirm = (e: React.MouseEvent<HTMLElement> | any) => {
-    console.log(e);
-  };
-
-  const cancel = (e: React.MouseEvent<HTMLElement> | any) => {
-    console.log(e);
-  };
   const renderCell = useCallback((transaction: any, columnKey: any) => {
     const cellValue = transaction[columnKey];
 
@@ -194,11 +194,15 @@ export default function Transaction() {
   }
 
   return (
-    <div className="h-screen p-10 relative">
-      <div className=" sm:absolute sm:top-1/2 sm:px-2 w-full xl:w-5/6 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 max-h-[90vh] sm:max-h-[95vh] overflow-auto ">
+    <div
+      className={`${screenHeight < 650 ? "h-full" : "h-screen"} p-10 relative`}
+    >
+      <div
+        className={` sm:absolute sm:top-1/2 sm:px-2 w-full xl:w-5/6 sm:left-1/2 sm:transform sm:-translate-x-1/2 sm:-translate-y-1/2 max-h-[90vh] sm:max-h-[95vh] overflow-auto ${
+          screenHeight < 650 ? "min-h-[600px]" : ""
+        }`}
+      >
         <Table
-          // className="min-h-[100px]"
-
           aria-label="Transactions"
           selectionMode="single"
           color={"secondary"}

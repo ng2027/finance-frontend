@@ -1,23 +1,16 @@
 import { Button, Tooltip } from "@nextui-org/react";
-import { PlusCircleOutlined, DollarOutlined } from "@ant-design/icons";
+import { DollarOutlined, CalendarOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import {
-  Checkbox,
-  ConfigProvider,
-  Input,
-  InputNumber,
-  Modal,
-  Typography,
-  message,
-} from "antd";
+import { ConfigProvider, Input, InputNumber, Modal, message } from "antd";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import { useUpdateTransactionMutation } from "@/hooks/useTransactionApi";
+
 import DropDownCategory from "../category/categoryDropDown";
 import { EditIcon } from "../icon";
 import router from "next/router";
+import { useUpdateSubscriptionMutation } from "@/hooks/useSubscriptionApi";
 const { TextArea } = Input;
-const { Text } = Typography;
-function EditTransactionModel({
+
+function EditSubscriptionModel({
   visible,
   handleCancel,
   setVisible,
@@ -32,20 +25,22 @@ function EditTransactionModel({
 }) {
   const initialForm = {
     name: data.name,
+    date: data.date,
     amount: data.amount,
     transaction_is_spending: data.transaction_is_spending,
     description: data.description,
   };
   const [formData, setFormData] = useState<any>(initialForm);
-  const { updateTransaction, updateTransactionisLoading } =
-    useUpdateTransactionMutation();
+  const { updateSubscription, updateSubscriptionisLoading } =
+    useUpdateSubscriptionMutation();
   const [missingField, setMissingField] = useState<any>({
     name: false,
     amount: false,
     category: false,
+    date: false,
   });
   const [messageApi, contextHolder] = message.useMessage();
-  const [dateChange, setDateChange] = useState(false);
+
   const [category, setCategory] = useState<any>([data.category]);
   function handleChange(e: any) {
     setFormData((prev: any) => ({
@@ -53,10 +48,10 @@ function EditTransactionModel({
       [e.target.name]: e.target.value,
     }));
   }
-  function handleNumberChange(value: any) {
+  function handleNumberChange(value: any, type: string) {
     setFormData((prev: any) => ({
       ...prev,
-      amount: value,
+      [type]: value,
     }));
   }
 
@@ -77,12 +72,16 @@ function EditTransactionModel({
     var nameMiss = false;
     var amountMiss = false;
     var categoryMiss = false;
+    var dateMiss = false;
 
     if (formData.name.replace(/\s+/g, "") == "") {
       nameMiss = true;
     }
     if (formData.amount == 0 || !formData.amount) {
       amountMiss = true;
+    }
+    if (!formData.date) {
+      dateMiss = true;
     }
     if (Array.from(category).join(", ") == "") {
       categoryMiss = true;
@@ -91,33 +90,29 @@ function EditTransactionModel({
       name: nameMiss,
       amount: amountMiss,
       category: categoryMiss,
+      date: dateMiss,
     });
-    if (!nameMiss && !amountMiss && !categoryMiss) {
-      updateTransaction({
+    if (!nameMiss && !amountMiss && !categoryMiss && !dateMiss) {
+      updateSubscription({
         reqData: {
           ...formData,
           category: Array.from(category).join(", "),
-          date: dateChange,
         },
-        transactionID: data._id,
+        subscriptionID: data._id,
       });
       setVisible(false);
-      router.push(`${router.pathname}`, `/transaction`);
-      resetModal();
+      router.push(`${router.pathname}`, `/subscription`);
     } else {
       error("Missing Fields");
     }
   }
 
-  function resetModal() {
-    setDateChange(false);
-  }
   return (
     <ConfigProvider theme={{ token: { colorPrimary: "#000000" } }}>
       {contextHolder}
       <Modal
         destroyOnClose
-        title="Edit Transaction"
+        title="Edit Subscription"
         open={visible}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -125,7 +120,7 @@ function EditTransactionModel({
           <Button
             className="dark"
             onClick={() => handleSubmit()}
-            isLoading={updateTransactionisLoading}
+            isLoading={updateSubscriptionisLoading}
           >
             Save
           </Button>
@@ -135,13 +130,27 @@ function EditTransactionModel({
           <div className="flex flex-row justify-between gap-x-2">
             <Input
               placeholder="Name"
-              className="w-[60%]"
+              className="w-[45%]"
               status={missingField.name ? "error" : ""}
               name="name"
               value={formData.name}
               onChange={handleChange}
             ></Input>
-
+            <InputNumber
+              className="w-[16%]"
+              placeholder="Date"
+              value={formData.date}
+              onChange={(e) => handleNumberChange(e, "date")}
+              status={missingField.date ? "error" : ""}
+              name="date"
+              min={1}
+              max={28}
+              prefix={
+                <div className="relative right-1.5">
+                  <CalendarOutlined />
+                </div>
+              }
+            ></InputNumber>
             <Button
               isIconOnly
               size="sm"
@@ -160,7 +169,7 @@ function EditTransactionModel({
             <InputNumber
               min={0}
               value={formData.amount}
-              onChange={handleNumberChange}
+              onChange={(e) => handleNumberChange(e, "amount")}
               name="amount"
               placeholder="Amount"
               className="w-[30%]"
@@ -180,23 +189,14 @@ function EditTransactionModel({
             placeholder="Description"
             maxLength={400}
           />
-          <div className="flex flex-row justify-between">
-            <div className="flex flex-row gap-x-2 items-center">
-              <span id="clicktype">Select Category:</span>
-              <DropDownCategory
-                selectedKeys={category}
-                setSelectedKeys={setCategory}
-                filter={false}
-                selectMissing={missingField.category}
-              />
-            </div>
-            <div className="flex flex-row gap-x-2 items-center">
-              <Text type="secondary">Update Date?</Text>
-              <Checkbox
-                checked={dateChange}
-                onChange={() => setDateChange((prev) => !prev)}
-              ></Checkbox>
-            </div>
+          <div className="flex flex-row gap-x-2 items-center">
+            <span id="clicktype">Select Category:</span>
+            <DropDownCategory
+              selectedKeys={category}
+              setSelectedKeys={setCategory}
+              filter={false}
+              selectMissing={missingField.category}
+            />
           </div>
         </div>
       </Modal>
@@ -204,13 +204,13 @@ function EditTransactionModel({
   );
 }
 
-export function EditTransaction({ data }: { data: any }) {
+export function EditSubscription({ data }: { data: any }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
     router.push(
       `${router.pathname}?edit=true`,
-      `/transaction/${data._id}/edit`
+      `/subscription/${data._id}/edit`
     );
   };
   const handleOk = () => {
@@ -218,17 +218,17 @@ export function EditTransaction({ data }: { data: any }) {
   };
 
   const handleCancel = () => {
-    router.push(`${router.pathname}`, `/transaction`);
+    router.push(`${router.pathname}`, `/subscription`);
     setIsModalOpen(false);
   };
   return (
     <>
-      <Tooltip content="Edit transaction">
+      <Tooltip content="Edit">
         <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
           <EditIcon onClick={showModal} />
         </span>
       </Tooltip>
-      <EditTransactionModel
+      <EditSubscriptionModel
         setVisible={setIsModalOpen}
         visible={isModalOpen}
         handleOk={handleOk}

@@ -30,7 +30,7 @@ export default function FAQ() {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (isLoading && user !== null) {
-        router.push("/dashboard");
+        router.push("/transaction");
       }
     }, 1500);
 

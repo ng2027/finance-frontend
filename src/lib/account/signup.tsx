@@ -153,7 +153,7 @@ function SignUp({ change }: { change: Function }) {
       });
 
       const timer = setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/transaction");
       }, 2000);
 
       return () => clearTimeout(timer);

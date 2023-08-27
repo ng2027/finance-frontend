@@ -15,7 +15,7 @@ function MenuItem({ name, link, icon }: any) {
 
   return (
     <div
-      className="flex flex-row gap-x-4 items-center cursor-pointer py-2 px-2 pr-3 rounded-xl text-slate-600 hover:text-white sm:bg-[#242124] duration-300 ease-in transition-all"
+      className="flex flex-row gap-x-4 items-center cursor-pointer py-2 px-2 pr-3 rounded-xl text-slate-600 hover:text-white sm:bg-[#242124] duration-300 ease-in transition-all sm:px-4"
       onClick={() => router.push(link)}
     >
       <Avatar
@@ -92,25 +92,17 @@ function MenuBar({ user }: any) {
             className="flex flex-row  sm:flex-col gap-y-5   w-full "
           >
             <MenuItem
-              name="Dashboard"
-              icon={<HomeOutlined />}
-              link="/dashboard"
+              name="Transactions"
+              icon={<DollarOutlined />}
+              link="/transaction"
             />
             <MenuItem
               name="Subscriptions"
               icon={<GlobalOutlined />}
               link="/subscription"
             />
-            <MenuItem
-              name="Transactions"
-              icon={<DollarOutlined />}
-              link="/transaction"
-            />
-            <MenuItem
-              name="Spending Report"
-              icon={<FileOutlined />}
-              link="/report"
-            />
+            <MenuItem name="Tabs" icon={<UserOutlined />} link="/tab" />
+            <MenuItem name="Report" icon={<FileOutlined />} link="/report" />
           </div>
         </div>
         <div
@@ -119,11 +111,11 @@ function MenuBar({ user }: any) {
         >
           <ConfigProvider theme={{ token: { colorPrimary: "#000000" } }}>
             <div className="flex flex-row gap-x-3">
-              <Button
+              {/* <Button
                 shape="round"
                 className="bg-white"
                 icon={<UserOutlined />}
-              ></Button>
+              ></Button> */}
               <Button
                 shape="round"
                 className="bg-white"

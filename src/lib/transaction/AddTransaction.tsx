@@ -193,7 +193,8 @@ export function AddTransaction() {
   return (
     <>
       <Button onClick={showModal}>
-        <PlusCircleOutlined /> Add Transaction
+        <PlusCircleOutlined />{" "}
+        <span className="hidden sm:block">Add Transaction</span>
       </Button>
       <AddTransactionModal
         setVisible={setIsModalOpen}

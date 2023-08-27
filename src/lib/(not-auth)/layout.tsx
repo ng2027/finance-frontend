@@ -29,7 +29,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isLoading && user !== null) {
-      router.push("/dashboard");
+      router.push("/transaction");
     }
   }, [user, isLoading]);
 

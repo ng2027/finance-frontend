@@ -83,7 +83,7 @@ function Login({ change }: { change: Function }) {
         duration: 5,
       });
       const timer = setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/transaction");
       }, 2000);
 
       return () => clearTimeout(timer);

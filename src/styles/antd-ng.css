@@ -25,3 +25,25 @@
 .apple-font {
   font-family: San Francisco;
 }
+
+.oval-container {
+  width: 600px;
+  height: 200px;
+  perspective: 800px; /* Perspective for 3D effect */
+}
+
+/* Style for the oval */
+.oval {
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    rgb(55, 65, 81),
+    rgb(17, 24, 39),
+    rgb(0, 0, 0)
+  );
+
+  height: 100%;
+  border-radius: 54%; /* Make it an oval */
+  transform: rotateX(60deg); /* Apply 3D rotation on X-axis */
+  transform-origin: center bottom; /* Set rotation origin */
+}

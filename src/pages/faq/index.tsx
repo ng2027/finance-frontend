@@ -2,7 +2,7 @@ import { Layout } from "@/lib/(not-auth)/layout";
 import { ReactElement } from "react";
 
 export default function FAQ() {
-  return <div className="">FAQ</div>;
+  return <div className="">Under Construction</div>;
 }
 
 FAQ.getLayout = function PageLayout(page: ReactElement) {

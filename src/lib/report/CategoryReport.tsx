@@ -46,7 +46,11 @@ export function CategoryReport({
           Total:{" "}
           <span
             className={`${
-              total < 0 ? "text-rose-400" : "text-emerald-400"
+              total < 0
+                ? "text-rose-400"
+                : total == 0
+                ? "text-slate-400"
+                : "text-emerald-400"
             } font-bold`}
           >
             ${Math.abs(total)}

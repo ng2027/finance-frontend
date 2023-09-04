@@ -47,3 +47,7 @@
   transform: rotateX(60deg); /* Apply 3D rotation on X-axis */
   transform-origin: center bottom; /* Set rotation origin */
 }
+
+.black-bar {
+  background-color: black;
+}

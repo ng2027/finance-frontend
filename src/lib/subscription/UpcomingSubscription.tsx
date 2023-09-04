@@ -88,7 +88,7 @@ export function UpcomingSubscription() {
       )}
       <div className="items-center flex flex-col  gap-y-2 overflow-auto w-[97%] h-[70%] rounded-md">
         {upcoming.length != 0 &&
-          upcoming.map((item: any) => <UpcomingItem item={item} />)}
+          upcoming.map((item: any) => <UpcomingItem key={item} item={item} />)}
       </div>
     </div>
   );

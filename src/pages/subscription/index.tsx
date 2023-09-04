@@ -216,7 +216,7 @@ export default function Subscription() {
                     key={column.key}
                     className={"text-md text-black p-2 "}
                     align="center"
-                    width={column?.width || null}
+                    // width={column?.width || 0}
                   >
                     {column.label}
                   </TableColumn>

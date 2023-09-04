@@ -69,6 +69,7 @@ export default function Report() {
           <div className="m-2 h-[83%] mt-4 overflow-auto flex flex-col justify-between  p-3">
             {categories.map((category: any) => (
               <CategoryReport
+                key={category}
                 category={category}
                 month={parseInt(Array.from(month).join(", "), 10)}
                 year={year}

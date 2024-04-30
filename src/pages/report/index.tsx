@@ -72,7 +72,7 @@ export default function Report() {
                 key={category}
                 category={category}
                 month={parseInt(Array.from(month).join(", "), 10)}
-                year={year}
+                year={parseInt(Array.from(year).join(", "), 10)}
               />
             ))}
           </div>
